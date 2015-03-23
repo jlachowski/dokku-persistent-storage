@@ -3,6 +3,8 @@ dokku-persistent-storage
 
 Basic persistent storage for dokku (https://github.com/progrium/dokku).
 
+For a more useful dokku plugin, which will also handle persistent storage, check out dokku-docker-options (https://github.com/dyson/dokku-docker-options).
+
 Requirements
 ------------
 
@@ -34,10 +36,9 @@ The above example will result in the following arguments being passed to docker 
 -v /host/path:/container/path -v /another/container/path
 ```
 
-Move information on docker volumes can be found here: http://docs.docker.io/en/latest/use/working_with_volumes/ .
+You may also include comments (lines beginning with a #) and blank lines in the PERSISTENT_STORAGE file.
 
-_* Lines must end with a new line character. You can verify your line endings with:_ cat -E PERSISTENT_STORAGE
-_and new line characters will be shown as $._
+Move information on docker volumes can be found here: http://docs.docker.io/en/latest/use/working_with_volumes/ .
 
 License
 -------

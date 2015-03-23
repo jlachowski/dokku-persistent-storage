@@ -2,15 +2,25 @@
 set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 
 STDIN=$(cat)
-APP="$1"
+APP="$1"; PHASE="$2"
 PERSISTENT_FILE="PERSISTENT_STORAGE"
 PERSISTENT_FILE_PATH="$DOKKU_ROOT/$APP/$PERSISTENT_FILE"
 
-if [[ -f "$PERSISTENT_FILE_PATH" ]]; then
-  while read line           
-  do           
-    output="$output -v $line"        
+output=""
+if [[ -f "$PERSISTENT_FILE_PATH" ]] && [[ "$PHASE" != "build" ]]; then
+  DONE=false
+  until $DONE; do
+    read line || DONE=true
+    [[ ! -n "$line" ]] && continue
+    case "$line" in
+      \#*)
+        continue
+        ;;
+      *)
+        output="$output -v $line"
+        ;;
+    esac
   done < $PERSISTENT_FILE_PATH
-    
-  echo "$STDIN$output"
 fi
+
+echo "$STDIN$output"
